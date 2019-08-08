@@ -88,6 +88,7 @@ handle_info({continue_init_msg, Fighters_number}, State) ->
     Enemies = [list_to_atom([Enemy]) || Enemy <-lists:seq(1, Fighters_number),
                State#fighter_state.name =/= list_to_atom([Enemy])], 
     New_fighter_state = State#fighter_state{enemies = Enemies},
+    erlang:send_after(?delay, State#fighter_state.manager, new_msg), 
     erlang:send_after(?delay, State#fighter_state.name, attack_msg), 
     {noreply, New_fighter_state};
 handle_info(attack_msg, State) ->

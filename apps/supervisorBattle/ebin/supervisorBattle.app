@@ -1,4 +1,4 @@
-{application, myapp, [
+{application, supervisorBattle, [
     {description,"Description"},
     {vsn,"1.0"},
     {modules,[]},

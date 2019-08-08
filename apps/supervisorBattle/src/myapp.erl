@@ -21,12 +21,12 @@
 
 
 f1(N) ->
-    lists:usort([{A, B, C} || A<-lists:seq(1,N), B<-lists:seq(1,N), C<-lists:seq(1,N), D<-lists:seq(1,N),
+    lists:usort([{A, B, C} || A<-lists:seq(1,N), B<-lists:seq(1,N), C<-lists:seq(1,N), _D<-lists:seq(1,N),
              A<B, B<C, A*A+B*B==C*C]).
 
 
 f2(N) ->
-    [{A, B, C} || A<-lists:seq(1,N), B<-lists:seq(1,N), C<-lists:seq(1,N), D<-lists:seq(1,N),
+    [{A, B, C} || A<-lists:seq(1,N), B<-lists:seq(1,N), C<-lists:seq(1,N), _D<-lists:seq(1,N),
              A<B, B<C, A*A+B*B==C*C].
 
 %%%===================================================================

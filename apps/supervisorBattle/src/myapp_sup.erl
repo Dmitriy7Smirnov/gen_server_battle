@@ -8,7 +8,8 @@
 %% API
 -export([
 	start_link/0,
-    start_child/1
+    start_child/1,
+    fight_manager/0
 ]).
 
 %% Supervisor callbacks
@@ -40,6 +41,7 @@ init(_Args) ->
            type => worker,
            modules => [gen_server_1]}
         ],
+%        fight_manager(),
     {ok, {SupervisorSpecification, ChildSpecifications}}.
 
 %%%===================================================================
@@ -50,5 +52,22 @@ start_child(Fighters_number) ->
 %$           supervisor:start_child(?MODULE, ['1']),
            [supervisor:start_child(?MODULE, [list_to_atom([Id]), Fighters_number]) ||
                                                                  Id <-lists:seq(1, Fighters_number) ].
+                                                                 
+                                                                 
 
 
+handle_info(new_msg, State) ->
+    io:format("New msg was received",[]),
+    {noreply, State}.                                                                
+
+fight_manager() ->
+    erlang:send_after(1000, self(), new_msg),
+    receive 
+        new_msg ->
+            io:format("Supervisor id is ~p~n",[self()]),
+            erlang:send_after(1000, self(), new_msg),
+            fight_manager();
+        Any ->
+            io:format("what the fuck"),
+            fight_manager()    
+    end.
